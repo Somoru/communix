@@ -6,6 +6,9 @@ on:
       - deployment
   workflow_dispatch:
 
+permissions:
+  id-token: write 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
