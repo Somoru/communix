@@ -11,6 +11,19 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
+// Authentication middleware
+const auth = (req, res, next) => {
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    console.error("Authentication error:", err);
+    res.status(401).send({ error: 'Please authenticate.' });
+  }
+};
+
 // Helper function to generate a random 4-digit ID
 function generate4DigitId() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -88,7 +101,7 @@ router.post('/signup', [
     res.status(500).json({ error: 'Failed to create user' });
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    //await client.close();
   }
 });
 
@@ -131,7 +144,39 @@ router.post('/login', [
     res.status(500).json({ error: 'Failed to login' });
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    //await client.close();
+  }
+});
+
+// Onboarding endpoint
+router.put('/users/:userId/onboarding', auth, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { onboardingAnswers } = req.body;
+
+    // Connect to MongoDB
+    await client.connect();
+    const db = client.db(process.env.DATABASE_NAME);
+    const usersCollection = db.collection('Users');
+
+    // Find the user
+    const user = await usersCollection.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update the user's onboardingAnswers
+    await usersCollection.updateOne(
+      { userId }, 
+      { $set: { onboardingAnswers } } 
+    );
+
+    res.json({ message: 'Onboarding answers saved successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save onboarding answers' });
+  } finally {
+    //await client.close();
   }
 });
 

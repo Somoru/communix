@@ -71,7 +71,7 @@ const Button = styled.button`
     background-color: #0056b3; // Darker blue on hover
   }
 `;
-
+axios.defaults.baseURL = 'http://localhost:5000';
 function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -85,7 +85,7 @@ function SignupPage() {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/signup', {
+      const response = await axios.post('/auth/signup', {
         name,
         email,
         password,

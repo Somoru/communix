@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://localhost:5000';
+
 const LoginContainer = styled.div`
   background-color: #f8f9fa; 
   min-height: 100vh;
@@ -83,7 +85,7 @@ function LoginPage() {
     setError(null);
 
     try {
-      const response = await axios.post('https://localhost:5000/auth/login', {
+      const response = await axios.post('/auth/login', {
         email,
         password,
       });
