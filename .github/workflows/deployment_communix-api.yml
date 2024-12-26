@@ -21,18 +21,13 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./communix-backend
-        run: |
-          npm install
+        run: npm install
 
-      - name: Zip artifact for deployment
-        working-directory: ./communix-backend
-        run: zip -r release.zip ./*
-
-      - name: Upload artifact for deployment job
+      - name: Upload application for deployment
         uses: actions/upload-artifact@v4
         with:
-          name: node-backend
-          path: ./communix-backend/release.zip
+          name: backend-files
+          path: ./communix-backend
 
   deploy:
     runs-on: ubuntu-latest
@@ -41,16 +36,13 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
-      - name: Download artifact from build job
+      - name: Download application from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-backend
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+          name: backend-files
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -65,4 +57,4 @@ jobs:
         with:
           app-name: 'communix-api'
           slot-name: 'Production'
-          package: './communix-backend/release.zip'
+          package: ./communix-backend
