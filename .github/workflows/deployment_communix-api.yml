@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - communix-api
 
 on:
@@ -14,27 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout the code
+        uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies
+        working-directory: ./communix-backend
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        working-directory: ./communix-backend
+        run: zip -r release.zip ./*
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: release.zip
+          name: node-backend
+          path: ./communix-backend/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,23 +47,22 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: node-backend
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AB06537EB1AC471ABCAD22B5D631845E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_632AE8FF6F394D398FE2A54BFDC73CD5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_82000BF7F1A34B338C0385584B38DA43 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_15EF5AF8FBBC41F2A4663F95BCA95E6D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5B65F586427A4265AB8DFF4B0F43C6DD }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4D8BF59F20064AD282C95D8E0AACD681 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'communix-api'
           slot-name: 'Production'
-          package: .
-          
+          package: './communix-backend/release.zip'
