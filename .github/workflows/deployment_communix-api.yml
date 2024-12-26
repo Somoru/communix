@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - communix-api
+name: Deploy Node.js app to Azure Web App - communix-api
 
 on:
   push:
@@ -7,46 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
-
-      - name: Install dependencies
-        working-directory: ./communix-backend
-        run: npm install
-
-      - name: Upload application for deployment
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-files
-          path: ./communix-backend/index.js  # Upload just the index.js if that's all you need
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write
-
     steps:
-      - name: Download application from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: backend-files
-
-      - name: List files in the downloaded artifact (Debugging step)
-        run: ls -R ./backend-files || echo "No files to list"
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,9 +18,9 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4D8BF59F20064AD282C95D8E0AACD681 }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'communix-api'
           slot-name: 'Production'
-          package: ./backend-files/index.js  # Directly point to index.js
+          package: ./communix-backend
+          app_command: 'node index.js'
