@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'communix-api'
           slot-name: 'Production'
-          package: ./backend-files/communix-backend
+          package: ./backend-files
