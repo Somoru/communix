@@ -20,6 +20,16 @@ const sendWelcomeEmail = async (userEmail, userName) => {
         pass: 'Communix@54' 
       }
     });
+    console.log(transporter); 
+
+    // Add Nodemailer event listeners here:
+    transporter.on('idle', () => {
+      console.log('Connection to GoDaddy SMTP server is idle.');
+    });
+
+    transporter.on('error', (err) => {
+      console.error('Nodemailer error:', err);
+    });
 
     // Define the email options
     const mailOptions = {

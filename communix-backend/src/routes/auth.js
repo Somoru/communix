@@ -94,7 +94,7 @@ router.post('/signup', [
     const result = await usersCollection.insertOne(newUser);
     const createdUser = await usersCollection.findOne({ _id: result.insertedId });
     
-    sendWelcomeEmail(newUser.email, newUser.name); 
+    sendWelcomeEmail(email, name); 
     // Generate JWT token
     const token = jwt.sign({ id: createdUser._id, userId: createdUser.userId, email: createdUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
