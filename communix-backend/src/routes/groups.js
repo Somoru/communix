@@ -99,7 +99,8 @@ router.put('/:chatId', auth, async (req, res) => {
 
     // Connect to MongoDB
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const groupsCollection = db.collection('Groups');
 
     // ... (Add validation for updatedData if needed) ...
@@ -137,7 +138,8 @@ router.delete('/:chatId', auth, async (req, res) => {
 
     // Connect to MongoDB
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const groupsCollection = db.collection('Groups');
 
     const groupChat = await groupsCollection.findOne({ chatId });
@@ -175,7 +177,8 @@ router.post('/:chatId/members', auth, async (req, res) => {
     }
 
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const groupsCollection = db.collection('Groups');
 
     const groupChat = await groupsCollection.findOne({ chatId });
@@ -217,7 +220,8 @@ router.delete('/:chatId/members/:userId', auth, async (req, res) => {
     const { chatId, userId } = req.params;
 
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const groupsCollection = db.collection('Groups');
 
     const groupChat = await groupsCollection.findOne({ chatId });
