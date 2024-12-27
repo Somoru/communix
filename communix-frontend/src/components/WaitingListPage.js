@@ -6,8 +6,21 @@ const WaitingListContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #fff;
-  padding: 2rem;
+background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
+  background-size: 150% 100%;
+  animation: backgroundMove 15s ease infinite;
+
+  @keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }  padding: 2rem;
   box-sizing: border-box;
 `;
 

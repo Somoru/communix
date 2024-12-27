@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import WaitingListPage from '../components/WaitingListPage';
 
 axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
 
@@ -110,7 +111,7 @@ function LoginPage() {
       // Store the JWT and user ID in local storage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('userId', response.data.user.userId);
-      navigate('/onboarding');
+      navigate('/waiting-list');
 
     } catch (error) {
       console.error('Login failed:', error);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../images/logo.jpg'; 
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Nav = styled.nav`
   padding: 0.5rem 1rem;
@@ -65,7 +66,7 @@ const NavLink = styled(Link)`
 `;
 
 const SignupButton = styled.button`
-  background-color:rgb(0, 10, 200); // Changed to black
+  background-color:rgb(0, 10, 200); 
   color: #fff;
   padding: 0.75rem 1.5rem; 
   border: none;
@@ -127,10 +128,27 @@ const MobileNavLinks = styled.ul`
   }
 `;
 
+const VerticalDropdownMenu = styled(Dropdown.Menu)`
+  display: flex;
+  flex-direction: column; /* Makes the menu items vertical */
+  padding: 0;
+`;
+
+const VerticalDropdownItem = styled(Dropdown.Item)`
+  padding: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isOnboardingPage = location.pathname === '/onboarding';
+  const iswaitingPage = location.pathname === '/waiting-list';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -155,10 +173,16 @@ function Navbar() {
           </svg>
         </MenuButton>
         <NavLinks>
-          {isOnboardingPage ? (
-            <li>
-              <NavLink to="/my-account">My Account</NavLink>
-            </li>
+          {(isOnboardingPage || iswaitingPage) ? (
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                User
+              </Dropdown.Toggle>
+              <VerticalDropdownMenu>
+              <VerticalDropdownItem href="/my-account">My Account</VerticalDropdownItem>
+              <VerticalDropdownItem href="/">Log Out</VerticalDropdownItem>
+              </VerticalDropdownMenu>
+            </Dropdown>
           ) : (
             <>
               <li>
@@ -175,10 +199,15 @@ function Navbar() {
           )}
         </NavLinks>
         <MobileNavLinks $isOpen={isOpen}>
-          {isOnboardingPage ? (
-            <li>
-              <NavLink to="/my-account" onClick={toggleMenu}>My Account</NavLink>
-            </li>
+          {(isOnboardingPage || iswaitingPage) ? (
+            <>
+              <li>
+                <NavLink to="/my-account" onClick={toggleMenu}>My Account</NavLink>
+              </li>
+              <li>
+                <NavLink to="/" onClick={toggleMenu}>Log Out</NavLink>
+              </li>
+            </>
           ) : (
             <>
               <li>
