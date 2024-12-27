@@ -71,7 +71,7 @@ const Button = styled.button`
     background-color: #0056b3; // Darker blue on hover
   }
 `;
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
 function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
