@@ -86,8 +86,8 @@ const Button = styled.button`
     background-color: rgb(100, 100, 100); // gray on hover
   }
 `;
-//axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
-axios.defaults.baseURL = 'https://localhost:5000/';
+axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
+//axios.defaults.baseURL = 'https://localhost:5000/';
 function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
