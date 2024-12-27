@@ -11,7 +11,6 @@ import WaitingListPage from './components/WaitingListPage';
 function App() {
   return (
     <div className="app-container">
-      <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} /> {/* Added SignupPage route */}

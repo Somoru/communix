@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import illustration from '../images/illustration.png';
+import Navbar from '../components/Navbar';
 
 const LandingPageContainer = styled.div`
   display: flex;
@@ -9,7 +10,21 @@ const LandingPageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh; 
-  background-color: #fff; 
+  background: linear-gradient(135deg, #F4F2FA 30%,rgb(236, 113, 255) 100%);
+  background-size: 150% 100%;
+  animation: backgroundMove 15s ease infinite;
+
+  @keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   padding: 2rem; 
   box-sizing: border-box; 
 
@@ -24,18 +39,21 @@ const ContentWrapper = styled.div`
   margin-bottom: 2rem; 
 
   @media (min-width: 1024px) { 
-    width: 50%; 
+    width: 100%; 
     padding-right: 4rem; 
     text-align: left;
     margin-bottom: 0;
+    margin-top: 0rem;
+    margin-left: 9rem;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 2.5rem; 
-  font-weight: bold;
-  color: #333; 
+  font-size: 3rem; 
+  color: black; 
   margin-bottom: 1rem; 
+  font-style: bold;
+
 
   @media (min-width: 1024px) { 
     font-size: 4rem; 
@@ -55,7 +73,7 @@ const Tagline = styled.p`
 const Button = styled(Link)`
   display: inline-block;
   padding: 1rem 3rem; /* Increased padding */
-  background-color: #007bff; 
+  background-color: black; 
   color: #fff;
   text-decoration: none;
   border-radius: 0.5rem; 
@@ -64,9 +82,10 @@ const Button = styled(Link)`
   transition: background-color 0.3s ease; 
 
   &:hover {
-    background-color: #0056b3; 
+    background-color:rgb(100, 100, 100); 
   }
 `;
+
 
 const Illustration = styled.img`
   max-width: 100%; /* Increased max-width */
@@ -84,7 +103,8 @@ const LoginText = styled.span`
   color: #555;
 
   a {
-    color: #007bff;
+    color: black;
+    font-weight: bold;
     text-decoration: none;
 
     &:hover {
@@ -96,6 +116,7 @@ const LoginText = styled.span`
 function LandingPage() {
   return (
     <LandingPageContainer>
+      <Navbar/>
       <ContentWrapper>
         <Heading>
           Welcome to <br /> Communix
@@ -109,7 +130,7 @@ function LandingPage() {
           Already a Member? <Link to="/login">Login</Link>
         </LoginText>
       </ContentWrapper>
-      <Illustration src={illustration} alt="Community Illustration" />
+      <Illustration src={illustration} alt="Illustration" />
     </LandingPageContainer>
   );
 }

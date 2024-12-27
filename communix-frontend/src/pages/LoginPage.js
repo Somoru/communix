@@ -6,7 +6,21 @@ import axios from 'axios';
 axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
 
 const LoginContainer = styled.div`
-  background-color: #f8f9fa; 
+  background: linear-gradient(135deg, #F4F2FA 30%,rgb(236, 113, 255) 100%);
+  background-size: 150% 100%;
+  animation: backgroundMove 15s ease infinite;
+
+  @keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   min-height: 100vh;
   display: flex;
   flex-direction: column; 
@@ -17,7 +31,7 @@ const LoginContainer = styled.div`
 `;
 
 const FormContainer = styled.div`
-  background-color: #fff;
+  background-color: #F4F2FA;
   padding: 3rem; 
   border-radius: 0.5rem; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
@@ -29,7 +43,7 @@ const Title = styled.h2`
   text-align: center;
   font-size: 2rem; 
   font-weight: bold;
-  color: #333; 
+  color: black; 
   margin-bottom: 2rem; 
 `;
 
@@ -55,12 +69,12 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+    box-shadow: 0 0 0 0.2rem rgba(236, 113, 255,0.25); 
   }
 `;
 
 const Button = styled.button`
-  background-color: #007bff; 
+  background-color: black; 
   color: #fff;
   padding: 0.75rem 1.5rem; 
   border: none;
@@ -70,7 +84,7 @@ const Button = styled.button`
   transition: background-color 0.3s ease; 
 
   &:hover {
-    background-color: #0056b3; 
+    background-color: rgb(100, 100, 100); 
   }
 `;
 
