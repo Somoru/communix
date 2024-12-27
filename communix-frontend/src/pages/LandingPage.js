@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import illustration from '../images/illustration.png';
+import Navbar from '../components/Navbar';
 
 const LandingPageContainer = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const LandingPageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh; 
-  background-color: #fff; 
+  
   padding: 2rem; 
   box-sizing: border-box; 
 
@@ -24,18 +25,21 @@ const ContentWrapper = styled.div`
   margin-bottom: 2rem; 
 
   @media (min-width: 1024px) { 
-    width: 50%; 
+    width: 100%; 
     padding-right: 4rem; 
     text-align: left;
     margin-bottom: 0;
+    margin-top: 0rem;
+    margin-left: 9rem;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 2.5rem; 
-  font-weight: bold;
-  color: #333; 
+  font-size: 3rem; 
+  color: black; 
   margin-bottom: 1rem; 
+  font-style: bold;
+
 
   @media (min-width: 1024px) { 
     font-size: 4rem; 
@@ -44,8 +48,11 @@ const Heading = styled.h1`
 
 const Tagline = styled.p`
   font-size: 1.25rem; 
-  color: #555; 
+  color: transparent;
   margin-bottom: 2rem; 
+  background: linear-gradient(180deg, #020887 0%,#C6EBBE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   @media (min-width: 1024px) { 
     font-size: 1.5rem; 
@@ -55,22 +62,23 @@ const Tagline = styled.p`
 const Button = styled(Link)`
   display: inline-block;
   padding: 1rem 3rem; /* Increased padding */
-  background-color: #007bff; 
-  color: #fff;
+  background-color: #C6EBBE; 
+  color: black;
   text-decoration: none;
   border-radius: 0.5rem; 
   font-size: 1.25rem; /* Increased font size */
   font-weight: bold;
-  transition: background-color 0.3s ease; 
+  transition: box-shadow 0.3s ease; 
 
   &:hover {
-    background-color: #0056b3; 
+    box-shadow: 0 0rem 0.5rem 0rem rgba(0, 0, 0, 0.75);
   }
 `;
 
+
 const Illustration = styled.img`
   max-width: 100%; /* Increased max-width */
-  height: auto; 
+  height: auto;
 
   @media (min-width: 1024px) { 
     max-width: 600px; /* Increased max-width for larger screens */
@@ -84,7 +92,8 @@ const LoginText = styled.span`
   color: #555;
 
   a {
-    color: #007bff;
+    color: black;
+    font-weight: bold;
     text-decoration: none;
 
     &:hover {
@@ -109,7 +118,7 @@ function LandingPage() {
           Already a Member? <Link to="/login">Login</Link>
         </LoginText>
       </ContentWrapper>
-      <Illustration src={illustration} alt="Community Illustration" />
+      <Illustration src={illustration} alt="Illustration" />
     </LandingPageContainer>
   );
 }

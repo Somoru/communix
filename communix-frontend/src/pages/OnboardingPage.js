@@ -5,8 +5,21 @@ import styled from "styled-components";
 import { studentQuestions, professionalQuestions } from "../questions";
 
 const OnboardingContainer = styled.div`
-  background-color: #f8f9fa;
-  min-height: 100vh;
+background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
+  background-size: 150% 100%;
+  animation: backgroundMove 15s ease infinite;
+
+  @keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,15 +63,15 @@ const AnswerOptions = styled.div`
 
 const OptionCard = styled.div`
   padding: 1rem;
-  border: 2px solid ${({ selected }) => (selected ? "#007bff" : "#e9ecef")};
+  border: 2px solid ${({ selected }) => (selected ? "#C6EBBE" : "#e9ecef")};
   border-radius: 0.5rem;
-  background-color: ${({ selected }) => (selected ? "#007bff" : "#fff")};
-  color: ${({ selected }) => (selected ? "#fff" : "#333")};
+  background-color: ${({ selected }) => (selected ? "#C6EBBE" : "#fff")};
+  color: ${({ selected }) => (selected ? "black" : "#333")};
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({ selected }) => (selected ? "#0056b3" : "#f1f3f5")};
+    background-color: ${({ selected }) => (selected ? "#C6EBBE" : "#f1f3f5")};
   }
 `;
 
@@ -69,7 +82,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #007bff;
+  background-color: #334195;
   color: #fff;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -122,9 +135,14 @@ function OnboardingPage() {
         newAnswers[questionIndex] = { question: questions[questionIndex].text, answers: [] };
       }
 
-      const updatedAnswers = newAnswers[questionIndex].answers.includes(answer)
-        ? newAnswers[questionIndex].answers.filter((a) => a !== answer)
-        : [...newAnswers[questionIndex].answers, answer];
+      let updatedAnswers;
+      if (questionIndex === 0) {
+        updatedAnswers = [answer];
+      } else {
+        updatedAnswers = newAnswers[questionIndex].answers.includes(answer)
+          ? newAnswers[questionIndex].answers.filter((a) => a !== answer)
+          : [...newAnswers[questionIndex].answers, answer];
+      }
 
       newAnswers[questionIndex] = { ...newAnswers[questionIndex], answers: updatedAnswers };
       return newAnswers;

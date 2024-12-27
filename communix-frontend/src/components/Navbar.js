@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../images/logo.jpg'; 
 
 const Nav = styled.nav`
-  background-color: #fff;
   padding: 0.5rem 1rem;
   position: fixed; 
   top: 0;
   left: 0;
   width: 100%;
   z-index: 10; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const NavContainer = styled.div`
@@ -38,7 +36,7 @@ const Logo = styled.img`
 const BrandName = styled.span`
   font-size: 2rem; 
   font-weight: bold;
-  color: #333; 
+  color: black; 
   text-decoration: none; /* Remove underline */
 `;
 
@@ -56,13 +54,43 @@ const NavLinks = styled.ul`
 
 const NavLink = styled(Link)`
   text-decoration: none; 
-  color: #555; 
+  color: black; 
   font-size: 1.25rem; /* Increased font size */
   font-weight: bold; /* Make the text bold */
   transition: color 0.3s ease; 
 
   &:hover {
-    color: #007bff; 
+    color: #95B2B0; 
+  }
+`;
+
+const SignupButton = styled.button`
+  background-color:rgb(0, 10, 200); // Changed to black
+  color: #fff;
+  padding: 0.75rem 1.5rem; 
+  border: none;
+  border-radius: 2rem; 
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
+
+  &:hover {
+    background-color: #020887;
+  }
+`;
+
+const Button = styled.button`
+  color: black;
+  background-color: transparent;
+  padding: 0.75rem 1.5rem; 
+  border: none;
+  border-radius: 2rem; 
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease; 
+
+  &:hover {
+    color: #95B2B0;
   }
 `;
 
@@ -101,6 +129,8 @@ const MobileNavLinks = styled.ul`
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isOnboardingPage = location.pathname === '/onboarding';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -125,20 +155,40 @@ function Navbar() {
           </svg>
         </MenuButton>
         <NavLinks>
-          <li>
-            <NavLink to="/signup">Sign Up</NavLink>
-          </li>
-          <li>
-            <NavLink to="/login">Log In</NavLink>
-          </li>
+          {isOnboardingPage ? (
+            <li>
+              <NavLink to="/my-account">My Account</NavLink>
+            </li>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/signup">
+                  <SignupButton>Sign Up</SignupButton>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/login">
+                  <Button>Log In</Button>
+                </NavLink>
+              </li>
+            </>
+          )}
         </NavLinks>
         <MobileNavLinks $isOpen={isOpen}>
-          <li>
-            <NavLink to="/signup" onClick={toggleMenu}>Sign Up</NavLink>
-          </li>
-          <li>
-            <NavLink to="/login" onClick={toggleMenu}>Log In</NavLink>
-          </li>
+          {isOnboardingPage ? (
+            <li>
+              <NavLink to="/my-account" onClick={toggleMenu}>My Account</NavLink>
+            </li>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/signup" onClick={toggleMenu}>Sign Up</NavLink>
+              </li>
+              <li>
+                <NavLink to="/login" onClick={toggleMenu}>Log In</NavLink>
+              </li>
+            </>
+          )}
         </MobileNavLinks>
       </NavContainer>
     </Nav>

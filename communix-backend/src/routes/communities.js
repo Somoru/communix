@@ -29,7 +29,8 @@ router.get('/:communityId', async (req, res) => {
     const { communityId } = req.params;
 
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const communitiesCollection = db.collection('Communities');
 
     const community = await communitiesCollection.findOne({ communityId });
@@ -76,7 +77,8 @@ router.post('/:communityId/join', auth, async (req, res) => {
     };
 
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const communityJoinRequestsCollection = db.collection('CommunityJoinRequests');
 
     await communityJoinRequestsCollection.insertOne(newJoinRequest);
