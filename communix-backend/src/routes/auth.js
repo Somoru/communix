@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { MongoClient } = require('mongodb');
 const { body, validationResult } = require('express-validator');
+const { sendWelcomeEmail } = require('../services/email'); 
 
 const router = express.Router();
 const uri = process.env.MONGODB_URI;
@@ -66,7 +67,8 @@ router.post('/signup', [
 
     // Connect to MongoDB (only connect once)
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+    const db = client.db('communix-db');
     const usersCollection = db.collection('Users');
 
     // Check for duplicate email
@@ -91,7 +93,8 @@ router.post('/signup', [
 
     const result = await usersCollection.insertOne(newUser);
     const createdUser = await usersCollection.findOne({ _id: result.insertedId });
-
+    
+    sendWelcomeEmail(newUser.email, newUser.name); 
     // Generate JWT token
     const token = jwt.sign({ id: createdUser._id, userId: createdUser.userId, email: createdUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -120,7 +123,8 @@ router.post('/login', [
 
     // Connect to MongoDB (only connect once)
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    //const db = client.db(process.env.DATABASE_NAME);
+const db = client.db('communix-db');
     const usersCollection = db.collection('Users');
 
     // Find user by email
@@ -156,7 +160,8 @@ router.put('/users/:userId/onboarding', auth, async (req, res) => {
 
     // Connect to MongoDB
     await client.connect();
-    const db = client.db(process.env.DATABASE_NAME);
+    ////const db = client.db(process.env.DATABASE_NAME);
+    const db = client.db('communix-db');
     const usersCollection = db.collection('Users');
 
     // Find the user
@@ -171,6 +176,8 @@ router.put('/users/:userId/onboarding', auth, async (req, res) => {
       { $set: { onboardingAnswers } } 
     );
 
+    
+
     res.json({ message: 'Onboarding answers saved successfully' });
   } catch (err) {
     console.error(err);
@@ -179,5 +186,6 @@ router.put('/users/:userId/onboarding', auth, async (req, res) => {
     //await client.close();
   }
 });
+
 
 module.exports = router;
