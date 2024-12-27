@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 
-//axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
-axios.defaults.baseURL = 'https://localhost:5000';
+axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
+//axios.defaults.baseURL = 'https://localhost:5000';
 
 const LoginContainer = styled.div`
     background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
