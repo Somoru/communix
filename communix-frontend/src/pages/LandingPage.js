@@ -10,21 +10,7 @@ const LandingPageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh; 
-  background: linear-gradient(135deg, #F4F2FA 30%,rgb(236, 113, 255) 100%);
-  background-size: 150% 100%;
-  animation: backgroundMove 15s ease infinite;
-
-  @keyframes backgroundMove {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+  
   padding: 2rem; 
   box-sizing: border-box; 
 
@@ -62,8 +48,11 @@ const Heading = styled.h1`
 
 const Tagline = styled.p`
   font-size: 1.25rem; 
-  color: #555; 
+  color: transparent;
   margin-bottom: 2rem; 
+  background: linear-gradient(180deg, #020887 0%,#C6EBBE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   @media (min-width: 1024px) { 
     font-size: 1.5rem; 
@@ -73,23 +62,23 @@ const Tagline = styled.p`
 const Button = styled(Link)`
   display: inline-block;
   padding: 1rem 3rem; /* Increased padding */
-  background-color: black; 
-  color: #fff;
+  background-color: #C6EBBE; 
+  color: black;
   text-decoration: none;
   border-radius: 0.5rem; 
   font-size: 1.25rem; /* Increased font size */
   font-weight: bold;
-  transition: background-color 0.3s ease; 
+  transition: box-shadow 0.3s ease; 
 
   &:hover {
-    background-color:rgb(100, 100, 100); 
+    box-shadow: 0 0rem 0.5rem 0rem rgba(0, 0, 0, 0.75);
   }
 `;
 
 
 const Illustration = styled.img`
   max-width: 100%; /* Increased max-width */
-  height: auto; 
+  height: auto;
 
   @media (min-width: 1024px) { 
     max-width: 600px; /* Increased max-width for larger screens */
@@ -116,7 +105,6 @@ const LoginText = styled.span`
 function LandingPage() {
   return (
     <LandingPageContainer>
-      <Navbar/>
       <ContentWrapper>
         <Heading>
           Welcome to <br /> Communix

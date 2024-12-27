@@ -2,6 +2,11 @@
 
 export const studentQuestions = [
     {
+      text: "What is your Profession?",
+      options: ["Student", "Professional"],
+    },
+
+    {
       text: "What Are Your Primary Areas of Academic Interest?",
       options: [
         "Artificial Intelligence and Data Science",

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 axios.defaults.baseURL = 'https://communix-api-bnhee2e2b5dkbrbh.southindia-01.azurewebsites.net/';
 
 const LoginContainer = styled.div`
-  background: linear-gradient(135deg, #F4F2FA 30%,rgb(236, 113, 255) 100%);
+    background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
   background-size: 150% 100%;
   animation: backgroundMove 15s ease infinite;
 
@@ -69,7 +70,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(236, 113, 255,0.25); 
+    box-shadow: 0 0 0 0.2rem rgba(149, 178, 176,0.4); 
   }
 `;
 
@@ -123,6 +124,7 @@ function LoginPage() {
 
   return (
     <LoginContainer>
+      <Navbar />
       <FormContainer>
         <Title>Log In</Title>
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}

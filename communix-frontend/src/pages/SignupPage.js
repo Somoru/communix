@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import Navbar from '../components/Navbar';
 
 const SignupContainer = styled.div`
-background: linear-gradient(135deg, #F4F2FA 30%,rgb(236, 113, 255) 100%);
+    background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
   background-size: 150% 100%;
   animation: backgroundMove 15s ease infinite;
 
@@ -67,7 +68,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(236, 113, 255,0.25); 
+    box-shadow: 0 0 0 0.2rem rgba(149, 178, 176,0.4); 
   }
 `;
 
@@ -90,6 +91,8 @@ function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cpassword, setcPassword] = useState('');
+
   const [profession, setProfession] = useState('student');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -126,6 +129,7 @@ function SignupPage() {
 
   return (
     <SignupContainer>
+      <Navbar />
       <FormContainer>
         <Title>Sign Up</Title>
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
@@ -161,18 +165,24 @@ function SignupPage() {
             />
           </div>
           <div>
-            <Label htmlFor="profession">Profession:</Label>
-            <Input 
-              as="select" 
-              id="profession"
-              value={profession}
-              onChange={(e) => setProfession(e.target.value)}
-            >
-              <option value="student">Student</option>
-              <option value="professional">Professional</option>
-            </Input>
+            <Label htmlFor="cpassword">Confirm Password:</Label>
+            <Input
+              type="password"
+              id="cpassword"
+              value={cpassword}
+              onChange={(e) => setcPassword(e.target.value)}
+              required
+              style={{
+                boxShadow: password && cpassword && password !== cpassword ? '0 0 0 0.2rem rgba(255, 0, 0, 0.4)' : 'none'
+              }}
+            />
           </div>
           <Button type="submit">Sign Up</Button>
+          {password && cpassword && password !== cpassword && (
+            <div style={{ color: 'red', textAlign: 'center', marginTop: '0.5rem' }}>
+              Passwords do not match
+            </div>
+          )}
         </Form>
       </FormContainer>
     </SignupContainer>
