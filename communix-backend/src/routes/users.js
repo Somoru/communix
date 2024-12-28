@@ -2,9 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
+const { body, validationResult } = require('express-validator'); 
 
 const router = express.Router();
 const uri = process.env.MONGODB_URI;
+const databaseId = process.env.DATABASE_NAME;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -27,11 +29,8 @@ const auth = (req, res, next) => {
 router.get('/:userId', auth, async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log("Received userId:", userId);
-    console.log("Authorization header:", req.header('Authorization'));
-    console.log("Decoded user ID:", req.user.userId);
 
-    // Connect to MongoDB
+    // Connect to MongoDB (inside the route handler)
     await client.connect();
     const db = client.db(databaseId);
     const usersCollection = db.collection('Users');
@@ -48,85 +47,112 @@ router.get('/:userId', auth, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch user' });
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    await client.close(); 
   }
 });
 
 // Edit Profile endpoint
-router.put('/:userId', auth, async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const updatedData = req.body;
-
-    // Connect to MongoDB
-    await client.connect();
-    const db = client.db(databaseId);
-    const usersCollection = db.collection('Users');
-
-    const user = await usersCollection.findOne({ userId });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+router.put(
+  '/:userId', 
+  auth, 
+  [
+    body('name').optional().isString().withMessage('Name must be a string'),
+    // Add validation for other allowed fields (e.g., email, profession)
+  ], 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    // Update the user object
-    const updatedUser = { ...user, ...updatedData };
+    try {
+      const { userId } = req.params;
+      const { name, /* other allowed fields */ } = req.body;
 
-    await usersCollection.updateOne({ userId }, { $set: updatedUser });
-    res.json(updatedUser);
+      // Connect to MongoDB (inside the route handler)
+      await client.connect();
+      const db = client.db(databaseId);
+      const usersCollection = db.collection('Users');
 
-  } catch (err) {
-    console.error("Error updating user profile:", err);
-    res.status(500).json({ error: 'Failed to update user' });
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+      const user = await usersCollection.findOne({ userId });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Update only allowed fields
+      const updatedUser = {
+        ...user,
+        name: name || user.name, // Update name if provided, otherwise keep original
+        // Update other allowed fields similarly
+      };
+
+      await usersCollection.updateOne({ userId }, { $set: updatedUser });
+      res.json(updatedUser);
+
+    } catch (err) {
+      console.error("Error updating user profile:", err);
+      res.status(500).json({ error: 'Failed to update user' });
+    } finally {
+      // Ensures that the client will close when you finish/error
+      await client.close();
+    } 
   }
-});
+);
 
 // Change Password endpoint
-router.post('/:userId/change-password', auth, async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const { currentPassword, newPassword } = req.body;
-
-    // Connect to MongoDB
-    await client.connect();
-    const db = client.db(databaseId);
-    const usersCollection = db.collection('Users');
-
-    const user = await usersCollection.findOne({ userId });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+router.post('/:userId/change-password', 
+  auth,
+  [
+    body('currentPassword').notEmpty().withMessage('Current password is required'),
+    body('newPassword').isStrongPassword().withMessage('New password must be strong') 
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    // Check current password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid current password' });
+    try {
+      const { userId } = req.params;
+      const { currentPassword, newPassword } = req.body;
+
+      // Connect to MongoDB (inside the route handler)
+      await client.connect();
+      const db = client.db(databaseId);
+      const usersCollection = db.collection('Users');
+
+      const user = await usersCollection.findOne({ userId });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Invalid current password' });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      await usersCollection.updateOne({ userId }, { $set: { password: hashedPassword } });
+      res.json({ message: 'Password changed successfully' });
+
+    } catch (err) {
+      console.error("Error changing password:", err);
+      res.status(500).json({ error: 'Failed to change password' });
+    } finally {
+      // Ensures that the client will close when you finish/error
+      await client.close();
     }
-
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await usersCollection.updateOne({ userId }, { $set: { password: hashedPassword } });
-    res.json({ message: 'Password changed successfully' });
-
-  } catch (err) {
-    console.error("Error changing password:", err);
-    res.status(500).json({ error: 'Failed to change password' });
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
   }
-});
+);
 
 // Deactivate Account endpoint (soft delete)
 router.delete('/:userId', auth, async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Connect to MongoDB
+    // Connect to MongoDB (inside the route handler)
     await client.connect();
     const db = client.db(databaseId);
     const usersCollection = db.collection('Users');

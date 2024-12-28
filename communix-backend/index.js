@@ -35,6 +35,10 @@ async function main() {
     const groupsRouter = require('./src/routes/groups');
     app.use('/groups', groupsRouter);
 
+    app.get('*', (req,res) =>{
+      res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    })
+
     // Start the server
     app.listen(port, () => {
       console.log(`Server is running on port: ${port}`);

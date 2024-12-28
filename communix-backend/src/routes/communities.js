@@ -50,7 +50,17 @@ const db = client.db('communix-db');
 });
 
 // Join Community Request endpoint
-router.post('/:communityId/join', auth, async (req, res) => {
+router.post('/:communityId/join', auth,
+  [
+    body('answers').isArray().notEmpty().withMessage('At least one answer is required').custom((answers) => {
+      return answers.every(answer => answer.question && answer.answer);
+    }).withMessage('Invalid answer format')
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
   try {
     const { communityId } = req.params;
     const { answers } = req.body;
