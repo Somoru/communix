@@ -207,6 +207,7 @@ function Navbar() {
               <Button>User</Button>
               <DropdownContent>
                 <DropdownItem to="/my-account">My Account</DropdownItem>
+                <DropdownItem to="/contact-us">COntact Us</DropdownItem>
                 <DropdownItem to="/">Log Out</DropdownItem>
               </DropdownContent>
             </UserDropdown>
@@ -222,6 +223,11 @@ function Navbar() {
                   <Button>Log In</Button>
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/contact-us">
+                  <Button>Contact Us</Button>
+                </NavLink>
+              </li>
             </>
           )}
         </NavLinks>
@@ -231,6 +237,9 @@ function Navbar() {
             <>
               <li>
                 <NavLink to="/my-account" onClick={() => setIsOpen(false)}>My Account</NavLink>
+              </li>
+              <li>
+                <NavLink to="/contact-us" onClick={() => setIsOpen(false)}>Contact Us</NavLink>
               </li>
               <li>
                 <NavLink to="/" onClick={() => setIsOpen(false)}>Log Out</NavLink>
@@ -243,6 +252,9 @@ function Navbar() {
               </li>
               <li>
                 <NavLink to="/login" onClick={() => setIsOpen(false)}>Log In</NavLink>
+              </li>
+              <li>
+                <NavLink to="/contact-us" onClick={() => setIsOpen(false)}>Contact Us</NavLink>
               </li>
             </>
           )}

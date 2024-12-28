@@ -6,6 +6,21 @@ import Navbar from '../components/Navbar';
 
 const LandingPageContainer = styled.div`
   display: flex;
+  background: linear-gradient(40deg, white 35%,#C6EBBE 100%);
+  background-size: 150% 100%;
+  animation: backgroundMove 15s ease infinite;
+
+  @keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   flex-direction: column; 
   align-items: center;
   justify-content: center;
@@ -64,66 +79,20 @@ const Tagline = styled.p`
   }
 `;
 
-const Button = styled(Link)`
-  display: inline-block;
-  padding: 1rem 3rem; /* Increased padding */
-  background-color: #C6EBBE; 
-  color: black;
-  text-decoration: none;
-  border-radius: 0.5rem; 
-  font-size: 1.25rem; /* Increased font size */
-  font-weight: bold;
-  transition: box-shadow 0.3s ease; 
-
-  &:hover {
-    box-shadow: 0 0rem 0.5rem 0rem rgba(0, 0, 0, 0.75);
-  }
-`;
 
 
-const Illustration = styled.img`
-  max-width: 100%; /* Increased max-width */
-  height: auto;
-
-  @media (min-width: 1024px) { 
-    max-width: 600px; /* Increased max-width for larger screens */
-  }
-`;
-
-const LoginText = styled.span`
-  display: block;
-  margin-top: 1.5rem; /* Increased margin */
-  font-size: 1.25rem; /* Increased font size */
-  color: #555;
-
-  a {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 
 function LandingPage() {
   return (
     <LandingPageContainer>
       <ContentWrapper>
         <Heading>
-          Welcome to <br /> Communix
+          Contact Us
         </Heading>
         <Tagline>
-          Communix empowers you to find your tribe, collaborate on shared goals, and create impactful relationships. 
-          Join today to unlock opportunities and foster a stronger network.
+          Email: team@communix.co
         </Tagline>
-        <Button to="/signup">REGISTER NOW</Button> <br />
-        <LoginText>
-          Already a Member? <Link to="/login">Login</Link>
-        </LoginText>
       </ContentWrapper>
-      <Illustration src={illustration} alt="Illustration" />
     </LandingPageContainer>
   );
 }

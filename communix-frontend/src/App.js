@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage'; 
 import OnboardingPage from './pages/OnboardingPage'; 
 import WaitingListPage from './components/WaitingListPage'; 
+import ContactUs from './pages/ContactUs';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} /> {/* Added LoginPage route */}
         <Route path="/onboarding" element={<OnboardingPage />} /> {/* Added OnboardingPage route */}
         <Route path="/waiting-list" element={<WaitingListPage />} /> 
+        <Route path="/contact-us" element={<ContactUs />} /> 
       </Routes>
     </div>
   );
