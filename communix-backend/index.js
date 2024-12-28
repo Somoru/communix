@@ -17,6 +17,7 @@ async function main() {
   try {
     await client.connect();
     console.log('Connected to MongoDB Atlas');
+    console.log(uri);
 
     // Your other code here...
     const indexRouter = require('./src/routes/index');
