@@ -68,11 +68,9 @@ const Heading = styled.h1`
 
 const Tagline = styled.p`
   font-size: 1.25rem; 
-  color: transparent;
+  color: #020887;
   margin-bottom: 2rem; 
-  background: linear-gradient(180deg, #020887 0%,#C6EBBE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  
 
   @media (min-width: 1024px) { 
     font-size: 1.5rem; 
@@ -90,7 +88,8 @@ function LandingPage() {
           Contact Us
         </Heading>
         <Tagline>
-          Email: team@communix.co
+          Email: team@communix.co<br />
+          Contact Number: +91 63098 49388
         </Tagline>
       </ContentWrapper>
     </LandingPageContainer>
