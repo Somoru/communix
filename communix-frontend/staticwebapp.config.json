@@ -1,0 +1,16 @@
+{
+    "navigationFallback": {
+      "rewrite": "index.html"
+    },
+    "routes": [
+      {
+        "route": "/auth/*", 
+        "backend": "communix-api-bnhee2e2b5dkbrbh" 
+      },
+      {
+        "route": "/users/*", 
+        "backend": "communix-api-bnhee2e2b5dkbrbh" 
+      }
+      
+    ]
+  }
