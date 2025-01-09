@@ -1,0 +1,13 @@
+.dashboard-container {
+    padding: 20px;
+    background-color: #f4f6f8;
+  }
+  
+  .dashboard-title {
+    margin-bottom: 20px;
+  }
+  
+  .metrics-container {
+    margin-bottom: 40px;
+  }
+  

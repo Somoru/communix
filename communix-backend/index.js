@@ -1,57 +1,50 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 require('dotenv').config();
-const { MongoClient } = require('mongodb');
+const path = require('path');
+
+// Import MongoDB middleware
+const { dbMiddleware } = require('./src/middlewares/db');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Middleware Setup
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
+app.use(dbMiddleware); // Use MongoDB middleware
 
-// MongoDB Configuration
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+// Import and Use Routes
+const indexRouter = require('./src/routes/index');
+app.use('/', indexRouter);
 
-async function main() {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB Atlas');
-    console.log(uri);
+const authRouter = require('./src/routes/auth');
+app.use('/auth', authRouter);
 
-    // Your other code here...
-    const indexRouter = require('./src/routes/index');
-    app.use('/', indexRouter);
+const usersRouter = require('./src/routes/users');
+app.use('/users', usersRouter);
 
-    const authRouter = require('./src/routes/auth');
-    app.use('/auth', authRouter);
+const communitiesRouter = require('./src/routes/communities');
+app.use('/communities', communitiesRouter);
 
-    const usersRouter = require('./src/routes/users');
-    app.use('/users', usersRouter);
+const groupsRouter = require('./src/routes/groups');
+app.use('/groups', groupsRouter);
 
-    const communitiesRouter = require('./src/routes/communities');
-    app.use('/communities', communitiesRouter);
+// Admin Routes
+const adminRoutes = require('./src/routes/adminRoutes');
+app.use('/admin', adminRoutes);
 
-    const groupsRouter = require('./src/routes/groups');
-    app.use('/groups', groupsRouter);
+// Default Route for Frontend (Optional)
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
-    app.get('*', (req,res) =>{
-      res.sendFile(path.join(__dirname, 'build', 'index.html'));
-    })
-
-    // Start the server
-    app.listen(port, () => {
-      console.log(`Server is running on port: ${port}`);
-    });
-
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-main()
-  .catch(console.error)
-  .finally(() => client.close());
-
+// Start the Server
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});
 
 module.exports = app;

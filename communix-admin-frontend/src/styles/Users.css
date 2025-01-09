@@ -1,0 +1,14 @@
+.users-container {
+    padding: 20px;
+    background-color: #f4f6f8;
+  }
+  
+  .users-title {
+    margin-bottom: 20px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  

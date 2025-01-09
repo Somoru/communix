@@ -46,6 +46,8 @@ async function generateUniqueUserId(name, usersCollection) {
   return userId;
 }
 
+
+
 // Signup endpoint
 router.post('/signup', [
   body('name').notEmpty().withMessage('Name is required'),
@@ -68,7 +70,7 @@ router.post('/signup', [
     // Connect to MongoDB (only connect once)
     await client.connect();
     //const db = client.db(process.env.DATABASE_NAME);
-    const db = client.db('communix-db');
+    const db = req.body;
     const usersCollection = db.collection('Users');
 
     // Check for duplicate email
@@ -124,7 +126,7 @@ router.post('/login', [
     // Connect to MongoDB (only connect once)
     await client.connect();
     //const db = client.db(process.env.DATABASE_NAME);
-const db = client.db('communix-db');
+const db = req.body;
     const usersCollection = db.collection('Users');
 
     // Find user by email
@@ -161,7 +163,7 @@ router.put('/users/:userId/onboarding', auth, async (req, res) => {
     // Connect to MongoDB
     await client.connect();
     ////const db = client.db(process.env.DATABASE_NAME);
-    const db = client.db('communix-db');
+    const db = req.body;
     const usersCollection = db.collection('Users');
 
     // Find the user

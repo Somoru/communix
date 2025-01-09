@@ -4,6 +4,7 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const { v4: uuidv4 } = require('uuid');
 
+const {body, validationResult} = require('express-validator');
 const router = express.Router();
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
@@ -30,7 +31,7 @@ router.get('/:communityId', async (req, res) => {
 
     await client.connect();
     //const db = client.db(process.env.DATABASE_NAME);
-const db = client.db('communix-db');
+const db = req.body;
     const communitiesCollection = db.collection('Communities');
 
     const community = await communitiesCollection.findOne({ communityId });
@@ -88,7 +89,7 @@ router.post('/:communityId/join', auth,
 
     await client.connect();
     //const db = client.db(process.env.DATABASE_NAME);
-const db = client.db('communix-db');
+const db = req.body;
     const communityJoinRequestsCollection = db.collection('CommunityJoinRequests');
 
     await communityJoinRequestsCollection.insertOne(newJoinRequest);

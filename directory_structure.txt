@@ -1,0 +1,68 @@
+project-root/
+├── communix-admin/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── LoginPage.js
+│   │   │   └── Dashboard/
+│   │   │       ├── Communities.js
+│   │   │       ├── ContentModeration.js
+│   │   │       ├── CreateCommunityDialog.js
+│   │   │       ├── Dashboard.js
+│   │   │       ├── DeleteCommunityDialog.js
+│   │   │       ├── EditCommunityDialog.js
+│   │   │       ├── Groups.js
+│   │   │       ├── JoinRequests.js
+│   │   │       ├── Overview.js
+│   │   │       ├── RolesandQuestions.js
+│   │   │       ├── Settings.js
+│   │   │       └── Users.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── reportWebVitals.js
+│   │   ├── setupTests.js
+│   │   └── logo.svg
+│   ├── public/
+│   │   └── index.html
+│   └── package.json
+├── communix-backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   │   ├── admin.js
+│   │   │   ├── auth.js
+│   │   │   ├── communities.js
+│   │   │   ├── groups.js
+│   │   │   ├── index.js
+│   │   │   └── users.js
+│   │   └── services/
+│   │       └── email.js
+│   ├── index.js
+│   └── package.json
+├── communix-frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.js
+│   │   │   └── WaitingListPage.js
+│   │   ├── images/
+│   │   │   ├── illustration.png
+│   │   │   └── logo.jpg
+│   │   ├── pages/
+│   │   │   ├── LandingPage.js
+│   │   │   ├── LoginPage.js
+│   │   │   ├── OnboardingPage.js
+│   │   │   └── SignupPage.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── logo.svg
+│   │   ├── questions.js
+│   │   └── reportWebVitals.js
+│   ├── public/
+│   │   └── index.html
+│   └── package.json
+├── package.json
+└── README.md
